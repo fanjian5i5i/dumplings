@@ -122,6 +122,55 @@ const authFeedback = document.getElementById("authFeedback");
 
 let pendingOpen = null;
 let currentMathAnswer = null;
+let openingOverlay = null;
+
+function ensureOpeningOverlay() {
+  if (openingOverlay) {
+    return openingOverlay;
+  }
+
+  const overlay = document.createElement("div");
+  overlay.className = "opening-overlay hidden";
+  overlay.innerHTML = `
+    <video class="opening-overlay-video" src="open.mp4" muted playsinline preload="auto" loop></video>
+    <button type="button" class="opening-skip-btn">Skip</button>
+  `;
+
+  document.body.appendChild(overlay);
+  openingOverlay = overlay;
+  return overlay;
+}
+
+function playOpeningOverlay(durationMs = 10000) {
+  const overlay = ensureOpeningOverlay();
+  const video = overlay.querySelector(".opening-overlay-video");
+  const skipBtn = overlay.querySelector(".opening-skip-btn");
+
+  return new Promise((resolve) => {
+    let finished = false;
+
+    const finish = () => {
+      if (finished) {
+        return;
+      }
+      finished = true;
+      clearTimeout(timerId);
+      skipBtn.removeEventListener("click", finish);
+      overlay.classList.add("hidden");
+      video.pause();
+      resolve();
+    };
+
+    overlay.classList.remove("hidden");
+    skipBtn.addEventListener("click", finish);
+    video.currentTime = 0;
+    video.play().catch(() => {
+      // If autoplay is blocked, timer + skip still allow continue.
+    });
+
+    const timerId = window.setTimeout(finish, durationMs);
+  });
+}
 
 function normalizeCollection(input) {
   const safeCollection = { ...collectionTemplate };
@@ -252,8 +301,16 @@ function rewardVisualMarkup(reward, decorative = true) {
   return dumplingIconMarkup(reward.colorClass);
 }
 
+function dumplingVideoMarkup() {
+  return `<video class="result-dumpling-video" src="open.mp4" autoplay muted playsinline controls onerror="this.style.display='none';" aria-label="Dumpling video"></video>`;
+}
+
 function hasAllDumplingsAtLeastTwo() {
   return dumplings.every((item) => (state.collection[item.key] || 0) >= 2);
+}
+
+function hasOpenedEveryDumpling() {
+  return dumplings.every((item) => (state.collection[item.key] || 0) >= 1);
 }
 
 function randomDumpling() {
@@ -635,7 +692,11 @@ function openBox(index, clickedButton) {
 
   persistCurrentCollection();
 
-  window.setTimeout(() => {
+  const revealReward = () => {
+    if (clickedButton.classList.contains("revealed")) {
+      return;
+    }
+
     clickedButton.classList.remove("opening");
     clickedButton.classList.add("opened", "revealed");
     clickedButton.innerHTML = `<span class="box-inner">${rewardVisualMarkup(reward)}<span class="box-label">${reward.name}</span></span>`;
@@ -645,6 +706,16 @@ function openBox(index, clickedButton) {
     resultPanelTitle.textContent = `You got ${reward.name}!`;
     resultText.textContent = reward.description;
     resultVisual.innerHTML = rewardVisualMarkup(reward, false);
+    if (hasOpenedEveryDumpling()) {
+      resultVisual.innerHTML += dumplingVideoMarkup();
+      const rewardVideo = resultVisual.querySelector(".result-dumpling-video");
+      if (rewardVideo) {
+        rewardVideo.currentTime = 0;
+        rewardVideo.play().catch(() => {
+          // User can press play if autoplay is blocked.
+        });
+      }
+    }
 
     resultVisual.classList.remove("revealed");
     void resultVisual.offsetWidth;
@@ -660,7 +731,11 @@ function openBox(index, clickedButton) {
     state.canOpen = true;
     updateRoundMessage();
     updateBoxInteractivity();
-  }, 560);
+  };
+
+  clickedButton.innerHTML = `<span class="box-inner"><span class="box-label">Opening...</span></span>`;
+
+  playOpeningOverlay(10000).then(revealReward);
 }
 
 function tryUnlockEnvelope(event) {
