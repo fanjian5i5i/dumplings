@@ -49,6 +49,7 @@ const STORAGE_COLLECTION_PREFIX = "dumpling_collection_";
 const fixedUsers = [
   { displayName: "Sarah", username: "sfan2", password: "35092" },
   { displayName: "James", username: "jfan", password: "37056" },
+  { displayName: "Estella", username: "exue", password: "123456" },
 ];
 
 const collectionTemplate = Object.fromEntries(dumplings.map((item) => [item.key, 0]));
@@ -545,7 +546,7 @@ function bootstrapAuth() {
   const activeUsername = readActiveUsername();
 
   if (!activeUsername) {
-    setAuthFeedback("Login with Sarah or James to start playing.");
+    setAuthFeedback("Login with Sarah, James, or Estella to start playing.");
     return;
   }
 
