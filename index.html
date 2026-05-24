@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mystery Dumpling Boxes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="hero">
+      <p class="kicker">Mystery Box Game</p>
+      <h1>Dumpling Surprise</h1>
+      <p class="subtitle">Choose one box out of three. Reveal a dumpling and grow your collection.</p>
+    </section>
+
+    <section class="auth-panel" id="authPanel" aria-label="Kid login">
+      <h2>Kid Accounts</h2>
+      <p class="auth-subtitle">Log in with Sarah or James to play.</p>
+
+      <div class="auth-grid">
+        <form id="loginForm" class="auth-form" autocomplete="off">
+          <h3>Login</h3>
+          <label for="loginKidSelect">Quick pick kid</label>
+          <select id="loginKidSelect">
+            <option value="">Choose a kid account</option>
+          </select>
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" type="text" required placeholder="Enter username">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" required placeholder="Enter password">
+          <button type="submit">Login</button>
+        </form>
+      </div>
+
+      <p id="authFeedback" class="auth-feedback"></p>
+    </section>
+
+    <section class="session-bar hidden" id="sessionBar" aria-live="polite">
+      <p>Logged in as <strong id="activeUserLabel"></strong></p>
+      <button id="logoutBtn" type="button" class="ghost-btn">Logout</button>
+    </section>
+
+    <div id="gameArea" class="game-area hidden">
+
+    <section class="board" aria-live="polite">
+      <div class="boxes" id="boxes"></div>
+
+      <div class="math-gate hidden" id="mathGate" role="group" aria-label="Math challenge">
+        <h3>Solve this math problem to open the envelope</h3>
+        <p class="math-rule">Normal = open 1, Hard = open 2, Extra Hard = open 3.</p>
+        <label for="mathLevel" class="math-level-label">Choose difficulty</label>
+        <select id="mathLevel" class="math-level">
+          <option value="normal">Normal (Open 1)</option>
+          <option value="hard">Hard (Open 2)</option>
+          <option value="extra">Extra Hard (Open 3)</option>
+        </select>
+        <p id="mathQuestion">Question goes here</p>
+        <form id="mathForm" class="math-form">
+          <input id="mathAnswer" type="number" inputmode="numeric" autocomplete="off" placeholder="Type your answer" required>
+          <button type="submit">Unlock Envelope</button>
+          <button type="button" id="mathCancelBtn" class="ghost-btn">Cancel</button>
+        </form>
+        <p id="mathFeedback" class="math-feedback"></p>
+      </div>
+
+      <div class="result-panel" id="resultPanel">
+        <h2>Pick a box to reveal your dumpling</h2>
+        <p id="resultText">One choice per round.</p>
+        <div id="resultVisual" class="result-visual" aria-hidden="true"></div>
+      </div>
+
+      <button id="nextRoundBtn" class="next-round" type="button">Play Next Round</button>
+    </section>
+
+    <aside class="collection" aria-label="Dumpling collection">
+      <h2>Collection</h2>
+      <ul id="collectionList"></ul>
+    </aside>
+    </div>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
