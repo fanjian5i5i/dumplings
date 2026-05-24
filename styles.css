@@ -494,6 +494,18 @@ h1 {
   right: 23px;
 }
 
+.cheek {
+  position: absolute;
+}
+
+.cheek-left {
+  left: 12px;
+}
+
+.cheek-right {
+  right: 12px;
+}
+
 .mouth {
   left: 50%;
   top: 40px;
@@ -551,6 +563,19 @@ h1 {
     );
 }
 
+.dumpling-icon.earth {
+  background:
+    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.55), transparent 40%),
+    radial-gradient(circle at 30% 62%, rgba(16, 185, 129, 0.95) 0 14%, transparent 15%),
+    radial-gradient(circle at 62% 36%, rgba(34, 197, 94, 0.95) 0 16%, transparent 17%),
+    radial-gradient(circle at 68% 68%, rgba(5, 150, 105, 0.92) 0 13%, transparent 14%),
+    radial-gradient(circle at 35% 20%, #7dd3fc, #2563eb 74%);
+  box-shadow:
+    inset 0 5px 12px rgba(255, 255, 255, 0.35),
+    0 0 10px rgba(59, 130, 246, 0.45),
+    0 8px 16px rgba(2, 6, 23, 0.25);
+}
+
 .dumpling-icon.shark {
   background:
     linear-gradient(160deg, rgba(255, 255, 255, 0.32), transparent 38%),
@@ -587,6 +612,423 @@ h1 {
   clip-path: polygon(0 0, 100% 0, 100% 70%, 95% 100%, 90% 70%, 85% 100%, 80% 70%, 75% 100%, 70% 70%, 65% 100%, 60% 70%, 55% 100%, 50% 70%, 45% 100%, 40% 70%, 35% 100%, 30% 70%, 25% 100%, 20% 70%, 15% 100%, 10% 70%, 5% 100%, 0 70%);
 }
 
+.dumpling-icon.sushi {
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.5), transparent 40%),
+    linear-gradient(180deg, #fff7ed 0%, #f8fafc 80%);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 5px 12px rgba(255, 255, 255, 0.45), 0 8px 16px rgba(2, 6, 23, 0.25);
+  overflow: visible;
+}
+
+.sushi-topping {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 18px;
+  border-radius: 12px 12px 10px 10px;
+  background:
+    linear-gradient(180deg, #fb7185 0%, #f43f5e 55%, #e11d48 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.25) 0 3px,
+      rgba(255, 255, 255, 0) 3px 8px
+    );
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.dumpling-icon.sushi .eye {
+  background: rgba(17, 24, 39, 0.9);
+}
+
+.sushi-smile {
+  top: 41px;
+  width: 18px;
+  height: 9px;
+  border-bottom: 3px solid rgba(17, 24, 39, 0.85);
+  border-radius: 0 0 14px 14px;
+}
+
+.sushi-cheek {
+  width: 12px;
+  height: 8px;
+  top: 35px;
+  border-radius: 50%;
+  background: rgba(244, 114, 182, 0.62);
+}
+
+.sushi-hand {
+  position: absolute;
+  top: 31px;
+  width: 12px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fde68a 0%, #f59e0b 100%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.35);
+  z-index: 2;
+}
+
+.sushi-hand-left {
+  left: 6px;
+  transform: rotate(-18deg);
+}
+
+.sushi-hand-right {
+  right: 6px;
+  transform: rotate(18deg);
+}
+
+.rainbow-crown {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 16px;
+  background:
+    linear-gradient(90deg, #ef4444 0%, #f97316 18%, #facc15 36%, #22c55e 54%, #3b82f6 72%, #a855f7 90%, #ef4444 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+  clip-path: polygon(0% 100%, 0% 45%, 20% 80%, 35% 5%, 50% 62%, 65% 5%, 80% 80%, 100% 45%, 100% 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 2px 3px rgba(255, 255, 255, 0.55),
+    0 0 7px rgba(167, 139, 250, 0.6);
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.65));
+  z-index: 4;
+}
+
+.sushi-boat {
+  position: absolute;
+  left: 50%;
+  bottom: -17px;
+  transform: translateX(-50%);
+  width: 86px;
+  height: 18px;
+  border-radius: 0 0 14px 14px;
+  background:
+    linear-gradient(180deg, #111827 0%, #030712 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.2) 0 2px,
+      rgba(255, 255, 255, 0) 2px 8px
+    );
+  box-shadow: 0 4px 8px rgba(2, 6, 23, 0.35), inset 0 2px 3px rgba(255, 255, 255, 0.1);
+}
+
+.sushi-oar {
+  position: absolute;
+  right: -20px;
+  top: 26px;
+  width: 40px;
+  height: 4px;
+  transform: rotate(-32deg);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sushi-oar::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 0 60% 60% 60%;
+  background: #f59e0b;
+}
+
+.dumpling-icon.chickty {
+  background:
+    radial-gradient(circle at 35% 20%, rgba(255, 255, 255, 0.45), transparent 40%),
+    radial-gradient(circle at 35% 20%, #fb923c, #f97316 72%);
+  overflow: visible;
+}
+
+.wing {
+  position: absolute;
+  width: 28px;
+  height: 36px;
+  top: 16px;
+  background: #f97316;
+  border-radius: 60% 40% 60% 40%;
+  /* Feather detail lines */
+  background:
+    repeating-linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.3) 0 2px,
+      transparent 2px 7px
+    ),
+    linear-gradient(170deg, #fb923c, #f97316 70%, #ea580c);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.wing-left {
+  left: -24px;
+  transform: rotate(10deg);
+  border-radius: 60% 20% 60% 40%;
+}
+
+.wing-right {
+  right: -24px;
+  transform: rotate(-10deg);
+  border-radius: 20% 60% 40% 60%;
+}
+
+.dumpling-icon.chickty::before {
+  background:
+    linear-gradient(180deg, #fbbf24, #fb923c),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.5) 0 3px,
+      rgba(255, 255, 255, 0.08) 3px 9px
+    );
+}
+
+.dumpling-icon.chickty::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 14px;
+  top: -5px;
+  right: 8px;
+  background: #fb923c;
+  border-radius: 50% 50% 0 0;
+  border: 2px solid #f97316;
+}
+
+.dumpling-icon.chickty .eye {
+  background: rgba(2, 6, 23, 0.9);
+}
+
+.dumpling-icon.chickty .mouth {
+  width: 10px;
+  height: 6px;
+  top: 42px;
+  border-bottom: 2px solid rgba(17, 24, 39, 0.8);
+  border-radius: 0 0 8px 8px;
+  background: #ea580c;
+}
+
+.beak {
+  position: absolute;
+  left: 50%;
+  top: 38px;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 9px solid #ea580c;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+}
+
+/* Razor - silver dumpling in a golden car */
+.razor-cheek {
+  width: 14px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(251, 113, 133, 0.65);
+  top: 36px;
+}
+
+.jewel-eye {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #ffffff, #a78bfa 40%, #7c3aed 75%);
+  border: 1.5px solid #c4b5fd;
+  box-shadow:
+    0 0 5px 2px rgba(167, 139, 250, 0.8),
+    inset 0 1px 2px rgba(255,255,255,0.9);
+}
+
+.jewel-eye::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0.9;
+}
+
+.lash-eye {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, #4b5563, #111827);
+}
+
+.lash-eye::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -1px;
+  width: 11px;
+  height: 5px;
+  background:
+    linear-gradient(to bottom, transparent 60%, #111827 60%) no-repeat 0px 0 / 2px 5px,
+    linear-gradient(to bottom, transparent 30%, #111827 30%) no-repeat 3px 0 / 2px 6px,
+    linear-gradient(to bottom, transparent 20%, #111827 20%) no-repeat 6px 0 / 2px 7px,
+    linear-gradient(to bottom, transparent 30%, #111827 30%) no-repeat 9px 0 / 2px 6px;
+}
+
+.dumpling-icon.razor {
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255,255,255,0.7), transparent 38%),
+    radial-gradient(circle at 35% 20%, #e2e8f0, #94a3b8 72%);
+  border-color: rgba(255,255,255,0.8);
+  box-shadow:
+    inset 0 5px 14px rgba(255,255,255,0.55),
+    0 0 18px rgba(250, 204, 21, 0.5),
+    0 8px 16px rgba(2,6,23,0.25);
+  overflow: visible;
+}
+
+.dumpling-icon.razor::before {
+  background:
+    linear-gradient(180deg, #f1f5f9, #cbd5e1),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.6) 0 3px,
+      rgba(255,255,255,0.1) 3px 9px
+    );
+}
+
+/* Golden car beneath Razor */
+/* Golden car body */
+.razor-car {
+  position: absolute;
+  bottom: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 26px;
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 45%, #d97706 100%);
+  border-radius: 3px 6px 3px 3px;
+  box-shadow:
+    0 4px 10px rgba(0,0,0,0.5),
+    inset 0 3px 5px rgba(255,255,255,0.35),
+    inset 0 -2px 4px rgba(0,0,0,0.2);
+}
+
+/* Car cabin / roof */
+.razor-hood {
+  position: absolute;
+  top: -20px;
+  left: 18px;
+  width: 72px;
+  height: 22px;
+  background: linear-gradient(170deg, #fde68a 0%, #f59e0b 60%, #d97706 100%);
+  border-radius: 8px 8px 0 0;
+  box-shadow: inset 0 3px 5px rgba(255,255,255,0.3);
+}
+
+/* Windshield */
+.razor-windshield {
+  position: absolute;
+  top: -17px;
+  left: 52px;
+  width: 28px;
+  height: 18px;
+  background: linear-gradient(150deg, rgba(224,242,254,0.95), rgba(125,211,252,0.55));
+  border-radius: 3px 5px 0 0;
+  border: 1.5px solid #b45309;
+  border-bottom: none;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.6);
+}
+
+/* Rear window */
+.razor-rear-window {
+  position: absolute;
+  top: -17px;
+  left: 26px;
+  width: 22px;
+  height: 18px;
+  background: linear-gradient(150deg, rgba(224,242,254,0.85), rgba(125,211,252,0.5));
+  border-radius: 5px 3px 0 0;
+  border: 1.5px solid #b45309;
+  border-bottom: none;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.5);
+}
+
+/* Door panel line */
+.razor-door-line {
+  position: absolute;
+  top: 6px;
+  left: 24px;
+  width: 58px;
+  height: 1.5px;
+  background: rgba(0,0,0,0.18);
+  border-radius: 2px;
+}
+
+/* Headlight */
+.razor-headlight {
+  position: absolute;
+  right: 4px;
+  top: 6px;
+  width: 10px;
+  height: 7px;
+  background: linear-gradient(135deg, #fef9c3, #fde68a);
+  border-radius: 2px 3px 3px 2px;
+  box-shadow: 0 0 6px 2px rgba(253,224,71,0.8);
+  border: 1px solid #d97706;
+}
+
+/* Taillight */
+.razor-taillight {
+  position: absolute;
+  left: 3px;
+  top: 6px;
+  width: 8px;
+  height: 7px;
+  background: linear-gradient(135deg, #fca5a5, #ef4444);
+  border-radius: 3px 2px 2px 3px;
+  box-shadow: 0 0 5px 1px rgba(239,68,68,0.7);
+  border: 1px solid #991b1b;
+}
+
+/* Wheels */
+.razor-wheel {
+  position: absolute;
+  bottom: -11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #6b7280, #111827 70%);
+  border: 3px solid #d97706;
+  box-shadow:
+    0 3px 6px rgba(0,0,0,0.6),
+    inset 0 1px 3px rgba(255,255,255,0.15);
+}
+
+.razor-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e5e7eb, #9ca3af);
+  border: 1.5px solid #d97706;
+}
+
+.razor-wheel-left {
+  left: 10px;
+}
+
+.razor-wheel-right {
+  right: 10px;
+}
+
 .next-round {
   margin-top: 1rem;
   border: 0;
@@ -614,16 +1056,97 @@ h1 {
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.55rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.8rem;
 }
 
 .collection li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: rgba(255, 255, 255, 0.11);
   border-radius: 10px;
-  padding: 0.55rem 0.7rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 260px;
+}
+
+.collection-item-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem 0.5rem;
+  cursor: pointer;
+  transition: background 200ms ease;
+  width: 100%;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.collection-item-header:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.collection-item-content {
+  padding: 1rem 0.7rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  animation: expand 200ms ease;
+}
+
+.collection-item-content.hidden {
+  display: none;
+}
+
+.collection-item-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  text-align: center;
+}
+
+.collection-item-content .dumpling-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.collection-visual-holder {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 160ms ease;
+}
+
+.collection-visual-holder:hover,
+.collection-visual-holder:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  outline: none;
+}
+
+.collection-item-content .dumpling-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.collection-item-content .rainbow-crown {
+  top: -18px;
+}
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tag {
@@ -664,9 +1187,30 @@ h1 {
   color: #0f172a;
 }
 
+.tag.earth {
+  background: linear-gradient(120deg, #22c55e, #14b8a6, #3b82f6);
+  color: #ecfeff;
+}
+
 .tag.shark {
   background: linear-gradient(120deg, #94a3b8, #64748b, #334155);
   color: #f8fafc;
+}
+
+.tag.chickty {
+  background: #fb923c;
+  color: #7c2d12;
+}
+
+.tag.razor {
+  background: linear-gradient(120deg, #e2e8f0, #94a3b8, #cbd5e1);
+  color: #1e293b;
+  box-shadow: 0 0 6px rgba(250, 204, 21, 0.7);
+}
+
+.tag.sushi {
+  background: linear-gradient(120deg, #fb7185, #f43f5e);
+  color: #fff7ed;
 }
 
 @media (max-width: 700px) {

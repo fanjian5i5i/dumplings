@@ -41,6 +41,30 @@ const dumplings = [
     colorClass: "shark",
     description: "A cool shark-style dumpling with ocean fins and gill marks.",
   },
+  {
+    key: "chickty",
+    name: "Chickty",
+    colorClass: "chickty",
+    description: "A fluffy orange chicken dumpling. Chickty is rare and clucky! (10% rarity)",
+  },
+  {
+    key: "razor",
+    name: "Razor",
+    colorClass: "razor",
+    description: "The rarest of them all. 💎 Razor is a shiny silver cutie cruising in a golden car. (3% rarity)",
+  },
+  {
+    key: "sushi",
+    name: "Sushi",
+    colorClass: "sushi",
+    description: "A super cute sushi dumpling with rice, seaweed, and salmon topping. (4% rarity)",
+  },
+  {
+    key: "earth",
+    name: "Earth",
+    colorClass: "earth",
+    description: "A planet-inspired dumpling with blue oceans and green land like Earth.",
+  },
 ];
 
 const STORAGE_ACTIVE_USER_KEY = "dumpling_active_user_v1";
@@ -209,7 +233,7 @@ function loginUser(username, password) {
 }
 
 function dumplingIconMarkup(colorClass) {
-  return `<span class="dumpling-icon ${colorClass}" aria-hidden="true"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span></span>`;
+  return `<span class="dumpling-icon ${colorClass}" aria-hidden="true"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth"></span><span class="rainbow-crown"></span></span>`;
 }
 
 function rewardVisualMarkup(reward, decorative = true) {
@@ -233,18 +257,37 @@ function hasAllDumplingsAtLeastTwo() {
 }
 
 function randomDumpling() {
-  const roll = Math.random();
+  const roll = Math.random() * 100;
 
-  if (roll < 0.8) {
-    const commonPool = [dumplings[0], dumplings[1], dumplings[2], dumplings[3], dumplings[6]];
-    return commonPool[randomInt(0, commonPool.length - 1)];
+  // Explicit rarity table (percent chance)
+  // Razor 3%, Sushi 4%, Chickty 10%
+  // Remaining chance split across the rest.
+  const rarityTable = [
+    { key: "razor", chance: 3 },
+    { key: "sushi", chance: 4 },
+    { key: "chickty", chance: 10 },
+    { key: "earth", chance: 8 },
+    { key: "rainbow", chance: 5 },
+    { key: "tideye", chance: 13 },
+    { key: "ozy", chance: 11 },
+    { key: "golden", chance: 11 },
+    { key: "glow", chance: 11 },
+    { key: "mimi", chance: 10 },
+    { key: "shark", chance: 10 },
+  ];
+
+  let threshold = 0;
+  for (const entry of rarityTable) {
+    threshold += entry.chance;
+    if (roll < threshold) {
+      const found = dumplings.find((item) => item.key === entry.key);
+      if (found) {
+        return found;
+      }
+    }
   }
 
-  if (roll < 0.95) {
-    return dumplings[4];
-  }
-
-  return dumplings[5];
+  return dumplings[0];
 }
 
 function randomInt(min, max) {
@@ -393,6 +436,11 @@ function renderCollection() {
 
   dumplings.forEach((item) => {
     const li = document.createElement("li");
+    li.className = "collection-item";
+    
+    const header = document.createElement("div");
+    header.className = "collection-item-header";
+    
     const name = document.createElement("span");
     name.textContent = item.name;
 
@@ -400,8 +448,163 @@ function renderCollection() {
     pill.className = `tag ${item.colorClass}`;
     pill.textContent = `x${state.collection[item.key]}`;
 
-    li.appendChild(name);
-    li.appendChild(pill);
+    header.appendChild(name);
+    header.appendChild(pill);
+    li.appendChild(header);
+    
+    // Add expandable content
+    const content = document.createElement("div");
+    content.className = "collection-item-content";
+    
+    const description = document.createElement("p");
+    description.className = "collection-description hidden";
+    description.textContent = item.description;
+    
+    // Try to load PNG image, fallback to CSS icon
+    const img = document.createElement("img");
+    img.src = `${item.key}.png`;
+    img.alt = item.name;
+    img.className = "dumpling-image";
+    const visualHolder = document.createElement("div");
+    visualHolder.className = "collection-visual-holder";
+    visualHolder.setAttribute("role", "button");
+    visualHolder.setAttribute("tabindex", "0");
+    visualHolder.setAttribute("aria-label", `Show description for ${item.name}`);
+    const rainbowCrown = document.createElement("span");
+    rainbowCrown.className = "rainbow-crown";
+    visualHolder.appendChild(rainbowCrown);
+    
+    const toggleDescription = () => {
+      description.classList.toggle("hidden");
+    };
+
+    visualHolder.addEventListener("click", toggleDescription);
+    visualHolder.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleDescription();
+      }
+    });
+    const renderCssVisual = () => {
+      // If image doesn't exist, show CSS dumpling icon instead
+      const visual = document.createElement("div");
+      visual.className = `dumpling-icon ${item.colorClass}`;
+      
+      const eyeLeft = document.createElement("span");
+      eyeLeft.className = "eye eye-left";
+      const eyeRight = document.createElement("span");
+      eyeRight.className = "eye eye-right";
+      
+      const mouth = document.createElement("span");
+      mouth.className = "mouth";
+      
+      visual.appendChild(eyeLeft);
+      visual.appendChild(eyeRight);
+      visual.appendChild(mouth);
+
+      // Jewel eyes for Razor
+      if (item.key === "razor") {
+        eyeLeft.className = "eye eye-left lash-eye";
+        eyeRight.className = "eye eye-right lash-eye";
+      }
+      
+      // Add wings for Chickty
+      if (item.key === "chickty") {
+        const wingLeft = document.createElement("span");
+        wingLeft.className = "wing wing-left";
+        const wingRight = document.createElement("span");
+        wingRight.className = "wing wing-right";
+        visual.appendChild(wingLeft);
+        visual.appendChild(wingRight);
+        mouth.className = "beak";
+      }
+
+      // Add golden car for Razor
+      if (item.key === "razor") {
+        const car = document.createElement("span");
+        car.className = "razor-car";
+        const wheel1 = document.createElement("span");
+        wheel1.className = "razor-wheel razor-wheel-left";
+        const wheel2 = document.createElement("span");
+        wheel2.className = "razor-wheel razor-wheel-right";
+        const wheelHub1 = document.createElement("span");
+        wheelHub1.className = "razor-hub";
+        const wheelHub2 = document.createElement("span");
+        wheelHub2.className = "razor-hub";
+        wheel1.appendChild(wheelHub1);
+        wheel2.appendChild(wheelHub2);
+        const windshield = document.createElement("span");
+        windshield.className = "razor-windshield";
+        const rearWindow = document.createElement("span");
+        rearWindow.className = "razor-rear-window";
+        const hood = document.createElement("span");
+        hood.className = "razor-hood";
+        const doorLine = document.createElement("span");
+        doorLine.className = "razor-door-line";
+        const headlight = document.createElement("span");
+        headlight.className = "razor-headlight";
+        const taillight = document.createElement("span");
+        taillight.className = "razor-taillight";
+        const cheekLeft = document.createElement("span");
+        cheekLeft.className = "cheek cheek-left razor-cheek";
+        const cheekRight = document.createElement("span");
+        cheekRight.className = "cheek cheek-right razor-cheek";
+        car.appendChild(wheel1);
+        car.appendChild(wheel2);
+        car.appendChild(hood);
+        car.appendChild(windshield);
+        car.appendChild(rearWindow);
+        car.appendChild(doorLine);
+        car.appendChild(headlight);
+        car.appendChild(taillight);
+        visual.appendChild(cheekLeft);
+        visual.appendChild(cheekRight);
+        visual.appendChild(car);
+      }
+
+      if (item.key === "sushi") {
+        const topping = document.createElement("span");
+        topping.className = "sushi-topping";
+        const boat = document.createElement("span");
+        boat.className = "sushi-boat";
+        const oar = document.createElement("span");
+        oar.className = "sushi-oar";
+        const handLeft = document.createElement("span");
+        handLeft.className = "sushi-hand sushi-hand-left";
+        const handRight = document.createElement("span");
+        handRight.className = "sushi-hand sushi-hand-right";
+        const cheekLeft = document.createElement("span");
+        cheekLeft.className = "cheek cheek-left sushi-cheek";
+        const cheekRight = document.createElement("span");
+        cheekRight.className = "cheek cheek-right sushi-cheek";
+        mouth.className = "mouth sushi-smile";
+        visual.appendChild(handLeft);
+        visual.appendChild(handRight);
+        visual.appendChild(cheekLeft);
+        visual.appendChild(cheekRight);
+        visual.appendChild(topping);
+        visual.appendChild(boat);
+        visual.appendChild(oar);
+      }
+      
+      if (img.parentElement) {
+        img.replaceWith(visual);
+      } else {
+        visualHolder.appendChild(visual);
+      }
+    };
+
+    if (item.key === "golden") {
+      renderCssVisual();
+    } else {
+      visualHolder.appendChild(img);
+      img.onerror = renderCssVisual;
+    }
+    
+    content.appendChild(description);
+    content.appendChild(visualHolder);
+    li.appendChild(content);
+    
     collectionList.appendChild(li);
   });
 }
