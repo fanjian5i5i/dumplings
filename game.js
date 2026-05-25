@@ -65,6 +65,48 @@ const dumplings = [
     colorClass: "earth",
     description: "A planet-inspired dumpling with blue oceans and green land like Earth.",
   },
+  {
+    key: "rapunzul",
+    name: "Rapunzul",
+    colorClass: "rapunzul",
+    description: "A princess dumpling with very long yellow hair.",
+  },
+  {
+    key: "veve",
+    name: "Veve",
+    colorClass: "veve",
+    description: "Veve in his afterlife form: a pale coffee vampire dumpling with sharp fangs and a dark cape.",
+  },
+  {
+    key: "vampire",
+    name: "Vampire",
+    colorClass: "vampire",
+    description: "A midnight vampire dumpling with red eyes and sharp fangs. (8% rarity)",
+  },
+  {
+    key: "rose",
+    name: "Peach",
+    colorClass: "rose",
+    description: "A peach-shaped cutie with soft peach skin, a leafy ear accent, and a thorny shirt. (14% rarity)",
+  },
+  {
+    key: "aurora",
+    name: "Aurora",
+    colorClass: "aurora",
+    description: "A princess bride with a flowing white wedding dress, diamond crown, rainbow twin braids, and a rose bouquet. (6% rarity)",
+  },
+  {
+    key: "ducky",
+    name: "Ducy Wucky",
+    colorClass: "ducky",
+    description: "Ducy Wucky is a duck dumpling who always holds a bundle of flowers. (23% rarity)",
+  },
+  {
+    key: "goos",
+    name: "Goos",
+    colorClass: "goos",
+    description: "A playful goos dumpling with fluffy white feathers and an orange beak. (1% rarity)",
+  },
 ];
 
 const STORAGE_ACTIVE_USER_KEY = "dumpling_active_user_v1";
@@ -266,6 +308,31 @@ const difficultyConfig = {
   extra: { opens: 3 },
 };
 
+const rarityTable = [
+  { key: "ducky", chance: 14 },
+  { key: "goos", chance: 1 },
+  { key: "veve", chance: 8 },
+  { key: "vampire", chance: 8 },
+  { key: "rose", chance: 10 },
+  { key: "aurora", chance: 5 },
+  { key: "razor", chance: 2 },
+  { key: "sushi", chance: 2 },
+  { key: "chickty", chance: 6 },
+  { key: "earth", chance: 5 },
+  { key: "rapunzul", chance: 5 },
+  { key: "rainbow", chance: 3 },
+  { key: "tideye", chance: 8 },
+  { key: "ozy", chance: 4 },
+  { key: "golden", chance: 4 },
+  { key: "glow", chance: 4 },
+  { key: "mimi", chance: 5 },
+  { key: "shark", chance: 6 },
+];
+
+const dumplingRarityByKey = Object.fromEntries(
+  rarityTable.map((entry) => [entry.key, entry.chance])
+);
+
 const state = {
   canOpen: true,
   roundRewards: [],
@@ -285,6 +352,7 @@ const resultPanelTitle = document.querySelector("#resultPanel h2");
 const resultVisual = document.getElementById("resultVisual");
 const nextRoundBtn = document.getElementById("nextRoundBtn");
 const collectionList = document.getElementById("collectionList");
+const crewList = document.getElementById("crewList");
 const mathGate = document.getElementById("mathGate");
 const mathQuestion = document.getElementById("mathQuestion");
 const mathForm = document.getElementById("mathForm");
@@ -601,13 +669,21 @@ function rewardVisualMarkup(reward, decorative = true) {
   if (reward.key === "golden") {
     const alt = decorative ? "" : t("goldenAlt");
     const fallback = dumplingIconMarkup("golden");
-    return `<span class="golden-visual"><img class="dumpling-art golden-art" src="golden.png" alt="${alt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"><span class="golden-fallback">${fallback}</span></span>`;
+    return `<span class="golden-visual"><img class="dumpling-art golden-art" src="golden.png" alt="${alt}" onerror="this.style.display='none'; this.parentElement.querySelector('.golden-fallback').style.display='inline-block';"><span class="golden-fallback">${fallback}</span></span>`;
   }
 
   if (reward.key === "shark") {
     const alt = decorative ? "" : t("sharkAlt");
     const fallback = dumplingIconMarkup("shark");
-    return `<span class="shark-visual"><img class="dumpling-art sharky-art" src="sharky.png" alt="${alt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"><span class="shark-fallback">${fallback}</span></span>`;
+    return `<span class="shark-visual"><img class="dumpling-art sharky-art" src="sharky.png" alt="${alt}" onerror="this.style.display='none'; this.parentElement.querySelector('.shark-fallback').style.display='inline-block';"><span class="shark-fallback">${fallback}</span></span>`;
+  }
+
+  if (reward.key === "ducky") {
+    return `<span class="dumpling-icon ducky"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth ducky-beak"></span><span class="ducky-bouquet"></span><span class="ducky-bouquet-wrap"></span></span>`;
+  }
+
+  if (reward.key === "goos") {
+    return `<span class="dumpling-icon goos"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth goos-beak"></span><span class="goos-wing goos-wing-left"></span><span class="goos-wing goos-wing-right"></span><span class="goos-tail"></span></span>`;
   }
 
   return dumplingIconMarkup(reward.colorClass);
@@ -615,6 +691,73 @@ function rewardVisualMarkup(reward, decorative = true) {
 
 function dumplingVideoMarkup() {
   return `<video class="result-dumpling-video" src="open.mp4" autoplay muted playsinline controls onerror="this.style.display='none';" aria-label="${t("dumplingVideoAria")}"></video>`;
+}
+
+function createdDumplingVisualMarkup(item) {
+  if (item.key === "golden" || item.key === "shark") {
+    return rewardVisualMarkup(item, true);
+  }
+
+  if (item.key === "chickty") {
+    return `<span class="dumpling-icon chickty"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="beak"></span><span class="rainbow-crown"></span><span class="wing wing-left"></span><span class="wing wing-right"></span></span>`;
+  }
+
+  if (item.key === "razor") {
+    return `<span class="dumpling-icon razor"><span class="eye eye-left lash-eye"></span><span class="eye eye-right lash-eye"></span><span class="mouth"></span><span class="rainbow-crown"></span><span class="cheek cheek-left razor-cheek"></span><span class="cheek cheek-right razor-cheek"></span><span class="razor-car"><span class="razor-wheel razor-wheel-left"><span class="razor-hub"></span></span><span class="razor-wheel razor-wheel-right"><span class="razor-hub"></span></span><span class="razor-hood"></span><span class="razor-windshield"></span><span class="razor-rear-window"></span><span class="razor-door-line"></span><span class="razor-headlight"></span><span class="razor-taillight"></span></span></span>`;
+  }
+
+  if (item.key === "sushi") {
+    return `<span class="dumpling-icon sushi"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth sushi-smile"></span><span class="rainbow-crown"></span><span class="sushi-hand sushi-hand-left"></span><span class="sushi-hand sushi-hand-right"></span><span class="cheek cheek-left sushi-cheek"></span><span class="cheek cheek-right sushi-cheek"></span><span class="sushi-topping"></span><span class="sushi-boat"></span><span class="sushi-oar"></span></span>`;
+  }
+
+  if (item.key === "rapunzul") {
+    return `<span class="dumpling-icon rapunzul"><span class="eye eye-left lash-eye"></span><span class="eye eye-right lash-eye"></span><span class="mouth"></span><span class="rainbow-crown"></span><span class="rapunzul-top-hair"></span><span class="rapunzul-hair rapunzul-hair-left"></span><span class="rapunzul-hair rapunzul-hair-right"></span></span>`;
+  }
+
+  if (item.key === "veve") {
+    return `<span class="dumpling-icon veve"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth veve-fangs"></span><span class="rainbow-crown"></span><span class="veve-cape"></span></span>`;
+  }
+
+  if (item.key === "rose") {
+    return `<span class="dumpling-icon rose"><span class="peach-garden-bg"></span><span class="peach-garden-daisies"></span><span class="peach-garden-house"></span><span class="peach-garden-panda"></span><span class="eye eye-left lash-eye"></span><span class="eye eye-right lash-eye"></span><span class="mouth"></span><span class="rose-ear-flower"></span><span class="rose-thorn-shirt"><span class="rose-bottom-leaf rose-bottom-leaf-left"></span><span class="rose-bottom-leaf rose-bottom-leaf-right"></span></span></span>`;
+  }
+
+  if (item.key === "aurora") {
+    return `<span class="dumpling-icon aurora"><span class="eye eye-left lash-eye"></span><span class="eye eye-right lash-eye"></span><span class="aurora-nose"></span><span class="mouth aurora-lips"></span><span class="aurora-crown"></span><span class="aurora-neck"></span><span class="aurora-head-seam"></span><span class="aurora-body-highlight"></span><span class="aurora-veil"></span><span class="aurora-braid aurora-braid-left"></span><span class="aurora-braid aurora-braid-right"></span><span class="aurora-belly"></span><span class="aurora-bodice"></span><span class="aurora-arm aurora-arm-left"></span><span class="aurora-arm aurora-arm-right"></span><span class="aurora-bouquet"></span><span class="aurora-dress"><span class="aurora-leg aurora-leg-left"><span class="aurora-heel"></span></span><span class="aurora-leg aurora-leg-right"><span class="aurora-heel"></span></span></span></span>`;
+  }
+
+  if (item.key === "ducky") {
+    return `<span class="dumpling-icon ducky"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth ducky-beak"></span><span class="ducky-bouquet"></span><span class="ducky-bouquet-wrap"></span></span>`;
+  }
+
+  if (item.key === "goos") {
+    return `<span class="dumpling-icon goos"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth goos-beak"></span><span class="goos-wing goos-wing-left"></span><span class="goos-wing goos-wing-right"></span><span class="goos-tail"></span></span>`;
+  }
+
+  return dumplingIconMarkup(item.colorClass);
+}
+
+function allCreatedDumplingsMarkup() {
+  const items = dumplings
+    .map(
+      (item) =>
+        `<span class="created-dumpling-item"><span class="created-dumpling-visual">${createdDumplingVisualMarkup(item)}</span><span class="created-dumpling-name">${item.name}</span></span>`
+    )
+    .join("");
+
+  return `<div class="created-dumplings-showcase" aria-label="All created dumplings">${items}</div>`;
+}
+
+function roamingDumplingVisualMarkup(item) {
+  if (item.key === "golden" || item.key === "shark") {
+    return rewardVisualMarkup(item, true);
+  }
+
+  if (item.key === "goos") {
+    return `<span class="dumpling-icon goos"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="mouth goos-beak"></span><span class="goos-wing goos-wing-left"></span><span class="goos-wing goos-wing-right"></span><span class="goos-tail"></span></span>`;
+  }
+
+  return dumplingIconMarkup(item.colorClass);
 }
 
 function hasAllDumplingsAtLeastTwo() {
@@ -629,21 +772,7 @@ function randomDumpling() {
   const roll = Math.random() * 100;
 
   // Explicit rarity table (percent chance)
-  // Razor 3%, Sushi 4%, Chickty 10%
-  // Remaining chance split across the rest.
-  const rarityTable = [
-    { key: "razor", chance: 3 },
-    { key: "sushi", chance: 4 },
-    { key: "chickty", chance: 10 },
-    { key: "earth", chance: 8 },
-    { key: "rainbow", chance: 5 },
-    { key: "tideye", chance: 13 },
-    { key: "ozy", chance: 11 },
-    { key: "golden", chance: 11 },
-    { key: "glow", chance: 11 },
-    { key: "mimi", chance: 10 },
-    { key: "shark", chance: 10 },
-  ];
+  // Veve is 30%.
 
   let threshold = 0;
   for (const entry of rarityTable) {
@@ -835,178 +964,80 @@ function refreshRenderedBoxLabels() {
 function renderCollection() {
   collectionList.innerHTML = "";
 
-  dumplings.forEach((item) => {
-    const li = document.createElement("li");
-    li.className = "collection-item";
-    
-    const header = document.createElement("div");
-    header.className = "collection-item-header";
-    
-    const name = document.createElement("span");
-    name.textContent = getDumplingName(item);
+  const collected = dumplings.filter((item) => (state.collection[item.key] || 0) > 0);
+  const li = document.createElement("li");
+  li.className = "collection-roam-card";
 
-    const pill = document.createElement("span");
-    pill.className = `tag ${item.colorClass}`;
-    pill.textContent = `x${state.collection[item.key]}`;
+  const title = document.createElement("p");
+  title.className = "collection-roam-title";
 
-    header.appendChild(name);
-    header.appendChild(pill);
-    li.appendChild(header);
-    
-    // Add expandable content
-    const content = document.createElement("div");
-    content.className = "collection-item-content";
-    
-    const description = document.createElement("p");
-    description.className = "collection-description hidden";
-    description.textContent = getDumplingDescription(item);
-    
-    // Try to load PNG image, fallback to CSS icon
-    const img = document.createElement("img");
-    img.src = `${item.key}.png`;
-    img.alt = getDumplingName(item);
-    img.className = "dumpling-image";
-    const visualHolder = document.createElement("div");
-    visualHolder.className = "collection-visual-holder";
-    visualHolder.setAttribute("role", "button");
-    visualHolder.setAttribute("tabindex", "0");
-    visualHolder.setAttribute("aria-label", t("showDescription", { name: getDumplingName(item) }));
-    const rainbowCrown = document.createElement("span");
-    rainbowCrown.className = "rainbow-crown";
-    visualHolder.appendChild(rainbowCrown);
-    
-    const toggleDescription = () => {
-      description.classList.toggle("hidden");
-    };
-
-    visualHolder.addEventListener("click", toggleDescription);
-    visualHolder.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        toggleDescription();
-      }
-    });
-    const renderCssVisual = () => {
-      // If image doesn't exist, show CSS dumpling icon instead
-      const visual = document.createElement("div");
-      visual.className = `dumpling-icon ${item.colorClass}`;
-      
-      const eyeLeft = document.createElement("span");
-      eyeLeft.className = "eye eye-left";
-      const eyeRight = document.createElement("span");
-      eyeRight.className = "eye eye-right";
-      
-      const mouth = document.createElement("span");
-      mouth.className = "mouth";
-      
-      visual.appendChild(eyeLeft);
-      visual.appendChild(eyeRight);
-      visual.appendChild(mouth);
-
-      // Jewel eyes for Razor
-      if (item.key === "razor") {
-        eyeLeft.className = "eye eye-left lash-eye";
-        eyeRight.className = "eye eye-right lash-eye";
-      }
-      
-      // Add wings for Chickty
-      if (item.key === "chickty") {
-        const wingLeft = document.createElement("span");
-        wingLeft.className = "wing wing-left";
-        const wingRight = document.createElement("span");
-        wingRight.className = "wing wing-right";
-        visual.appendChild(wingLeft);
-        visual.appendChild(wingRight);
-        mouth.className = "beak";
-      }
-
-      // Add golden car for Razor
-      if (item.key === "razor") {
-        const car = document.createElement("span");
-        car.className = "razor-car";
-        const wheel1 = document.createElement("span");
-        wheel1.className = "razor-wheel razor-wheel-left";
-        const wheel2 = document.createElement("span");
-        wheel2.className = "razor-wheel razor-wheel-right";
-        const wheelHub1 = document.createElement("span");
-        wheelHub1.className = "razor-hub";
-        const wheelHub2 = document.createElement("span");
-        wheelHub2.className = "razor-hub";
-        wheel1.appendChild(wheelHub1);
-        wheel2.appendChild(wheelHub2);
-        const windshield = document.createElement("span");
-        windshield.className = "razor-windshield";
-        const rearWindow = document.createElement("span");
-        rearWindow.className = "razor-rear-window";
-        const hood = document.createElement("span");
-        hood.className = "razor-hood";
-        const doorLine = document.createElement("span");
-        doorLine.className = "razor-door-line";
-        const headlight = document.createElement("span");
-        headlight.className = "razor-headlight";
-        const taillight = document.createElement("span");
-        taillight.className = "razor-taillight";
-        const cheekLeft = document.createElement("span");
-        cheekLeft.className = "cheek cheek-left razor-cheek";
-        const cheekRight = document.createElement("span");
-        cheekRight.className = "cheek cheek-right razor-cheek";
-        car.appendChild(wheel1);
-        car.appendChild(wheel2);
-        car.appendChild(hood);
-        car.appendChild(windshield);
-        car.appendChild(rearWindow);
-        car.appendChild(doorLine);
-        car.appendChild(headlight);
-        car.appendChild(taillight);
-        visual.appendChild(cheekLeft);
-        visual.appendChild(cheekRight);
-        visual.appendChild(car);
-      }
-
-      if (item.key === "sushi") {
-        const topping = document.createElement("span");
-        topping.className = "sushi-topping";
-        const boat = document.createElement("span");
-        boat.className = "sushi-boat";
-        const oar = document.createElement("span");
-        oar.className = "sushi-oar";
-        const handLeft = document.createElement("span");
-        handLeft.className = "sushi-hand sushi-hand-left";
-        const handRight = document.createElement("span");
-        handRight.className = "sushi-hand sushi-hand-right";
-        const cheekLeft = document.createElement("span");
-        cheekLeft.className = "cheek cheek-left sushi-cheek";
-        const cheekRight = document.createElement("span");
-        cheekRight.className = "cheek cheek-right sushi-cheek";
-        mouth.className = "mouth sushi-smile";
-        visual.appendChild(handLeft);
-        visual.appendChild(handRight);
-        visual.appendChild(cheekLeft);
-        visual.appendChild(cheekRight);
-        visual.appendChild(topping);
-        visual.appendChild(boat);
-        visual.appendChild(oar);
-      }
-      
-      if (img.parentElement) {
-        img.replaceWith(visual);
-      } else {
-        visualHolder.appendChild(visual);
-      }
-    };
-
-    if (item.key === "golden") {
-      renderCssVisual();
-    } else {
-      visualHolder.appendChild(img);
-      img.onerror = renderCssVisual;
-    }
-    
-    content.appendChild(description);
-    content.appendChild(visualHolder);
-    li.appendChild(content);
-    
+  if (collected.length === 0) {
+    title.textContent = "No collected dumplings yet. Open an envelope to start your dumpling swarm.";
+    li.appendChild(title);
     collectionList.appendChild(li);
+    renderCrew();
+    return;
+  }
+
+  title.textContent = "Your collected dumplings are roaming around!";
+  li.appendChild(title);
+
+  const stage = document.createElement("div");
+  stage.className = "collection-roam-stage";
+
+  const cols = 4;
+  const rowGap = 20;
+
+  collected.forEach((item, index) => {
+    const count = state.collection[item.key] || 0;
+    const token = document.createElement("span");
+    token.className = item.key === "aurora" ? "roaming-dumpling aurora-dance" : "roaming-dumpling";
+
+    const col = index % cols;
+    const row = Math.floor(index / cols);
+    const left = 12 + col * 24;
+    const top = 18 + row * rowGap;
+
+    token.style.left = `${Math.min(left, 88)}%`;
+    token.style.top = `${Math.min(top, 82)}%`;
+    token.style.setProperty("--dx", `${((index % 5) - 2) * 12}px`);
+    token.style.setProperty("--dy", `${((index % 7) - 3) * 9}px`);
+    token.style.animationDuration = item.key === "aurora" ? "2.8s" : `${9 + (index % 5) * 1.4}s`;
+    token.style.animationDelay = `-${(index % 6) * 0.8}s`;
+    token.innerHTML = `<span class="roaming-visual">${roamingDumplingVisualMarkup(item)}</span><span class="roaming-name">${item.name}</span><span class="roaming-count">x${count}</span>`;
+    stage.appendChild(token);
+  });
+
+  li.appendChild(stage);
+  collectionList.appendChild(li);
+
+  renderCrew();
+}
+
+function renderCrew() {
+  if (!crewList) {
+    return;
+  }
+
+  crewList.innerHTML = "";
+
+  const sortedByRarity = [...dumplings].sort((a, b) => {
+    const rarityA = dumplingRarityByKey[a.key] ?? 0;
+    const rarityB = dumplingRarityByKey[b.key] ?? 0;
+
+    if (rarityB !== rarityA) {
+      return rarityB - rarityA;
+    }
+
+    return a.name.localeCompare(b.name);
+  });
+
+  sortedByRarity.forEach((item) => {
+    const li = document.createElement("li");
+    li.className = "crew-item";
+    const rarity = dumplingRarityByKey[item.key] ?? 0;
+    li.innerHTML = `<span class="crew-visual">${createdDumplingVisualMarkup(item)}</span><span class="crew-name">${item.name}</span><span class="crew-rarity">Rarity: ${rarity}%</span>`;
+    crewList.appendChild(li);
   });
 }
 
@@ -1050,15 +1081,34 @@ function openBox(index, clickedButton) {
     resultPanelTitle.textContent = t("youGot", { name: getDumplingName(reward) });
     resultText.textContent = getDumplingDescription(reward);
     resultVisual.innerHTML = rewardVisualMarkup(reward, false);
+
+    const appendAllCreatedShowcase = () => {
+      if (resultVisual.querySelector(".created-dumplings-showcase")) {
+        return;
+      }
+      resultVisual.insertAdjacentHTML("beforeend", allCreatedDumplingsMarkup());
+    };
+
     if (hasOpenedEveryDumpling()) {
       resultVisual.innerHTML += dumplingVideoMarkup();
       const rewardVideo = resultVisual.querySelector(".result-dumpling-video");
       if (rewardVideo) {
         rewardVideo.currentTime = 0;
+        rewardVideo.addEventListener("ended", appendAllCreatedShowcase, { once: true });
+        rewardVideo.addEventListener("pause", () => {
+          if (!rewardVideo.ended) {
+            rewardVideo.play().catch(() => {
+              // Keep trying while video is active.
+            });
+          }
+        });
         rewardVideo.play().catch(() => {
           // User can press play if autoplay is blocked.
         });
       }
+
+      // Fallback in case ended event doesn't fire.
+      window.setTimeout(appendAllCreatedShowcase, 10500);
     }
 
     resultVisual.classList.remove("revealed");

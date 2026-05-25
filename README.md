@@ -8,6 +8,9 @@ A browser-based mystery box game where the player opens 1 box out of 3 and gets 
 - Golden (golden)
 - Glow (glow in the dark)
 - mimi (purple)
+- Ducy Wucky (duck with flowers, 23% rarity)
+- Vampire (midnight vampire dumpling, 8% rarity)
+- Goos (fluffy white goos dumpling, 1% rarity)
 
 ## How to run
 
