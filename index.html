@@ -12,27 +12,30 @@
 <body>
   <main class="app-shell">
     <section class="hero">
-      <p class="kicker">Mystery Box Game</p>
-      <h1>Dumpling Surprise</h1>
-      <p class="subtitle">Choose one box out of three. Reveal a dumpling and grow your collection.</p>
+      <div class="hero-top-row">
+        <p id="kickerText" class="kicker">Mystery Box Game</p>
+        <button id="langToggleBtn" class="lang-toggle" type="button" aria-label="Switch language">中文</button>
+      </div>
+      <h1 id="heroTitle">Dumpling Surprise</h1>
+      <p id="heroSubtitle" class="subtitle">Choose one box out of three. Reveal a dumpling and grow your collection.</p>
     </section>
 
     <section class="auth-panel" id="authPanel" aria-label="Kid login">
-      <h2>Kid Accounts</h2>
-      <p class="auth-subtitle">Log in with Sarah, James, or Estella to play.</p>
+      <h2 id="authPanelTitle">Kid Accounts</h2>
+      <p id="authSubtitle" class="auth-subtitle">Log in with Sarah, James, Estella, or Dean to play.</p>
 
       <div class="auth-grid">
         <form id="loginForm" class="auth-form" autocomplete="off">
-          <h3>Login</h3>
-          <label for="loginKidSelect">Quick pick kid</label>
+          <h3 id="loginTitle">Login</h3>
+          <label id="loginKidLabel" for="loginKidSelect">Quick pick kid</label>
           <select id="loginKidSelect">
             <option value="">Choose a kid account</option>
           </select>
-          <label for="loginUsername">Username</label>
+          <label id="loginUsernameLabel" for="loginUsername">Username</label>
           <input id="loginUsername" type="text" required placeholder="Enter username">
-          <label for="loginPassword">Password</label>
+          <label id="loginPasswordLabel" for="loginPassword">Password</label>
           <input id="loginPassword" type="password" required placeholder="Enter password">
-          <button type="submit">Login</button>
+          <button id="loginSubmitBtn" type="submit">Login</button>
         </form>
       </div>
 
@@ -40,7 +43,7 @@
     </section>
 
     <section class="session-bar hidden" id="sessionBar" aria-live="polite">
-      <p>Logged in as <strong id="activeUserLabel"></strong></p>
+      <p><span id="sessionLoggedInPrefix">Logged in as</span> <strong id="activeUserLabel"></strong></p>
       <button id="logoutBtn" type="button" class="ghost-btn">Logout</button>
     </section>
 
@@ -50,9 +53,9 @@
       <div class="boxes" id="boxes"></div>
 
       <div class="math-gate hidden" id="mathGate" role="group" aria-label="Math challenge">
-        <h3>Solve this math problem to open the envelope</h3>
-        <p class="math-rule">Normal = open 1, Hard = open 2, Extra Hard = open 3.</p>
-        <label for="mathLevel" class="math-level-label">Choose difficulty</label>
+        <h3 id="mathGateTitle">Solve this math problem to open the envelope</h3>
+        <p id="mathRuleText" class="math-rule">Normal = open 1, Hard = open 2, Extra Hard = open 3.</p>
+        <label id="mathLevelLabel" for="mathLevel" class="math-level-label">Choose difficulty</label>
         <select id="mathLevel" class="math-level">
           <option value="normal">Normal (Open 1)</option>
           <option value="hard">Hard (Open 2)</option>
@@ -61,14 +64,14 @@
         <p id="mathQuestion">Question goes here</p>
         <form id="mathForm" class="math-form">
           <input id="mathAnswer" type="number" inputmode="numeric" autocomplete="off" placeholder="Type your answer" required>
-          <button type="submit">Unlock Envelope</button>
+          <button id="unlockEnvelopeBtn" type="submit">Unlock Envelope</button>
           <button type="button" id="mathCancelBtn" class="ghost-btn">Cancel</button>
         </form>
         <p id="mathFeedback" class="math-feedback"></p>
       </div>
 
       <div class="result-panel" id="resultPanel">
-        <h2>Pick a box to reveal your dumpling</h2>
+        <h2 id="resultPanelHeading">Pick a box to reveal your dumpling</h2>
         <p id="resultText">One choice per round.</p>
         <div id="resultVisual" class="result-visual" aria-hidden="true"></div>
       </div>
@@ -77,7 +80,7 @@
     </section>
 
     <aside class="collection" aria-label="Dumpling collection">
-      <h2>Collection</h2>
+      <h2 id="collectionTitle">Collection</h2>
       <ul id="collectionList"></ul>
     </aside>
     </div>

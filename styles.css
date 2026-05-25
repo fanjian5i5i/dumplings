@@ -49,6 +49,29 @@ body {
   animation: fade-up 500ms ease;
 }
 
+.hero-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.lang-toggle {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.35);
+  color: #f8fafc;
+  padding: 0.38rem 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+.lang-toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(15, 23, 42, 0.52);
+}
+
 .kicker {
   margin: 0;
   font-size: 0.86rem;

@@ -69,19 +69,201 @@ const dumplings = [
 
 const STORAGE_ACTIVE_USER_KEY = "dumpling_active_user_v1";
 const STORAGE_COLLECTION_PREFIX = "dumpling_collection_";
+const STORAGE_LANGUAGE_KEY = "dumpling_language_v1";
+
+const uiText = {
+  en: {
+    pageTitle: "Mystery Dumpling Boxes",
+    kicker: "Mystery Box Game",
+    heroTitle: "Dumpling Surprise",
+    heroSubtitle: "Choose one box out of three. Reveal a dumpling and grow your collection.",
+    switchLanguageAria: "Switch language",
+    switchButton: "中文",
+    authPanelAria: "Kid login",
+    authPanelTitle: "Kid Accounts",
+    authSubtitle: "Log in with Sarah, James, Estella, or Dean to play.",
+    loginTitle: "Login",
+    loginKidLabel: "Quick pick kid",
+    loginKidPlaceholder: "Choose a kid account",
+    loginUsernameLabel: "Username",
+    loginUsernamePlaceholder: "Enter username",
+    loginPasswordLabel: "Password",
+    loginPasswordPlaceholder: "Enter password",
+    loginSubmit: "Login",
+    sessionLoggedInPrefix: "Logged in as",
+    logout: "Logout",
+    mathGateAria: "Math challenge",
+    mathGateTitle: "Solve this math problem to open the envelope",
+    mathRuleText: "Normal = open 1, Hard = open 2, Extra Hard = open 3.",
+    mathLevelLabel: "Choose difficulty",
+    difficultyNormalOption: "Normal (Open 1)",
+    difficultyHardOption: "Hard (Open 2)",
+    difficultyExtraOption: "Extra Hard (Open 3)",
+    mathQuestionPlaceholder: "Question goes here",
+    mathAnswerPlaceholder: "Type your answer",
+    unlockEnvelope: "Unlock Envelope",
+    cancel: "Cancel",
+    resultPanelDefaultTitle: "Pick a box to reveal your dumpling",
+    resultPanelDefaultText: "One choice per round.",
+    nextRound: "Play Next Round",
+    collectionAria: "Dumpling collection",
+    collectionTitle: "Collection",
+    openingSkip: "Skip",
+    goldenAlt: "Golden dumpling",
+    sharkAlt: "Sharky dumpling",
+    dumplingVideoAria: "Dumpling video",
+    loginFailed: "Login failed. Check username and password.",
+    loginWelcome: "Welcome, {name}!",
+    loginWelcomeBack: "Welcome back, {name}!",
+    loginPrompt: "Login with Sarah, James, Estella, or Dean to start playing.",
+    loginExpired: "Session expired. Please login again.",
+    loggedOut: "Logged out.",
+    solveToUnlock: "Solve a math challenge to unlock envelopes",
+    roundRuleBase: "Normal opens 1, Hard opens 2, Extra Hard opens 3.",
+    roundRuleBonus: "Normal opens 1, Hard opens 2, Extra Hard opens 3. Bonus unlocked: +1 free open each round.",
+    envelopesLeft: "{count} envelope{suffix} left this round",
+    difficultyPrefix: "Difficulty: {label}.{bonus}",
+    difficultyBonus: " + 1 bonus free open!",
+    roundComplete: "Round complete",
+    roundCompleteText: "Click Play Next Round to solve another challenge.",
+    mysteryEnvelope: "Mystery Envelope {index}",
+    openMysteryEnvelope: "Open mystery envelope {index}",
+    showDescription: "Show description for {name}",
+    opening: "Opening...",
+    youGot: "You got {name}!",
+    answerTypeNumber: "Type a number answer first.",
+    answerTryAgain: "Not quite. Try again.",
+    difficultyNormal: "Normal",
+    difficultyHard: "Hard",
+    difficultyExtra: "Extra Hard",
+  },
+  zh: {
+    pageTitle: "神秘饺子盲盒",
+    kicker: "盲盒小游戏",
+    heroTitle: "饺子惊喜",
+    heroSubtitle: "三选一打开盲盒，解锁饺子并扩展你的收藏。",
+    switchLanguageAria: "切换语言",
+    switchButton: "EN",
+    authPanelAria: "小朋友登录",
+    authPanelTitle: "小朋友账号",
+    authSubtitle: "使用 Sarah、James、Estella 或 Dean 登录开始游戏。",
+    loginTitle: "登录",
+    loginKidLabel: "快速选择账号",
+    loginKidPlaceholder: "选择一个小朋友账号",
+    loginUsernameLabel: "用户名",
+    loginUsernamePlaceholder: "输入用户名",
+    loginPasswordLabel: "密码",
+    loginPasswordPlaceholder: "输入密码",
+    loginSubmit: "登录",
+    sessionLoggedInPrefix: "当前登录：",
+    logout: "退出登录",
+    mathGateAria: "数学挑战",
+    mathGateTitle: "先解答数学题，再打开信封",
+    mathRuleText: "普通 = 开1个，困难 = 开2个，超难 = 开3个。",
+    mathLevelLabel: "选择难度",
+    difficultyNormalOption: "普通（开1个）",
+    difficultyHardOption: "困难（开2个）",
+    difficultyExtraOption: "超难（开3个）",
+    mathQuestionPlaceholder: "题目会显示在这里",
+    mathAnswerPlaceholder: "输入答案",
+    unlockEnvelope: "解锁信封",
+    cancel: "取消",
+    resultPanelDefaultTitle: "选择一个盲盒来揭晓你的饺子",
+    resultPanelDefaultText: "每轮按难度可开多个。",
+    nextRound: "下一轮",
+    collectionAria: "饺子收藏",
+    collectionTitle: "收藏",
+    openingSkip: "跳过",
+    goldenAlt: "金色饺子",
+    sharkAlt: "鲨鲨饺子",
+    dumplingVideoAria: "饺子视频",
+    loginFailed: "登录失败，请检查用户名和密码。",
+    loginWelcome: "欢迎你，{name}！",
+    loginWelcomeBack: "欢迎回来，{name}！",
+    loginPrompt: "请使用 Sarah、James、Estella 或 Dean 登录开始游戏。",
+    loginExpired: "登录状态已过期，请重新登录。",
+    loggedOut: "已退出登录。",
+    solveToUnlock: "先完成数学挑战，再解锁信封",
+    roundRuleBase: "普通开1个，困难开2个，超难开3个。",
+    roundRuleBonus: "普通开1个，困难开2个，超难开3个。奖励已解锁：每轮额外+1次免费开启。",
+    envelopesLeft: "本轮还可开启 {count} 个信封",
+    difficultyPrefix: "当前难度：{label}{bonus}",
+    difficultyBonus: "，并有 +1 次奖励开启！",
+    roundComplete: "本轮完成",
+    roundCompleteText: "点击“下一轮”继续挑战。",
+    mysteryEnvelope: "神秘信封 {index}",
+    openMysteryEnvelope: "打开神秘信封 {index}",
+    showDescription: "查看 {name} 的介绍",
+    opening: "开启中...",
+    youGot: "你获得了 {name}！",
+    answerTypeNumber: "请先输入数字答案。",
+    answerTryAgain: "不太对，再试一次。",
+    difficultyNormal: "普通",
+    difficultyHard: "困难",
+    difficultyExtra: "超难",
+  },
+};
+
+const dumplingI18n = {
+  ozy: {
+    zhName: "欧吉",
+    zhDescription: "蓝色清爽风。欧吉总是自带酷酷的自信。",
+  },
+  golden: {
+    zhName: "金金",
+    zhDescription: "闪亮又幸运。金金是稀有高级饺子。",
+  },
+  glow: {
+    zhName: "闪闪",
+    zhDescription: "会发光，能量满满。",
+  },
+  mimi: {
+    zhName: "咪咪",
+    zhDescription: "紫色又活泼。咪咪让每一轮都充满神秘感。",
+  },
+  tideye: {
+    zhName: "星潮",
+    zhDescription: "银河配色的饺子，带着星空旋涡能量。",
+  },
+  rainbow: {
+    zhName: "彩虹",
+    zhDescription: "全身彩虹条纹，快乐值拉满。",
+  },
+  shark: {
+    zhName: "鲨鲨",
+    zhDescription: "鲨鱼风格饺子，拥有海洋鳍和鳃纹。",
+  },
+  chickty: {
+    zhName: "小鸡奇",
+    zhDescription: "毛绒绒的橙色小鸡饺子。小鸡奇稀有又可爱！（10% 稀有度）",
+  },
+  razor: {
+    zhName: "锐锐",
+    zhDescription: "最稀有的饺子。锐锐银闪闪，还坐着金色小车！（3% 稀有度）",
+  },
+  sushi: {
+    zhName: "寿司",
+    zhDescription: "超可爱的寿司饺子，米饭、海苔和三文鱼顶料齐全。（4% 稀有度）",
+  },
+  earth: {
+    zhName: "地球",
+    zhDescription: "星球灵感饺子，蓝色海洋和绿色陆地就像地球。",
+  },
+};
 
 const fixedUsers = [
   { displayName: "Sarah", username: "sfan2", password: "35092" },
   { displayName: "James", username: "jfan", password: "37056" },
   { displayName: "Estella", username: "exue", password: "123456" },
+  { displayName: "Dean", username: "dfan", password: "20211120" },
 ];
 
 const collectionTemplate = Object.fromEntries(dumplings.map((item) => [item.key, 0]));
 
 const difficultyConfig = {
-  normal: { opens: 1, label: "Normal" },
-  hard: { opens: 2, label: "Hard" },
-  extra: { opens: 3, label: "Extra Hard" },
+  normal: { opens: 1 },
+  hard: { opens: 2 },
+  extra: { opens: 3 },
 };
 
 const state = {
@@ -94,6 +276,7 @@ const state = {
   selectedDifficulty: "normal",
   collection: { ...collectionTemplate },
   currentUser: null,
+  language: localStorage.getItem(STORAGE_LANGUAGE_KEY) === "zh" ? "zh" : "en",
 };
 
 const boxesRoot = document.getElementById("boxes");
@@ -119,6 +302,40 @@ const loginKidSelect = document.getElementById("loginKidSelect");
 const loginUsername = document.getElementById("loginUsername");
 const loginPassword = document.getElementById("loginPassword");
 const authFeedback = document.getElementById("authFeedback");
+const langToggleBtn = document.getElementById("langToggleBtn");
+
+function t(key, vars = {}) {
+  const active = uiText[state.language] || uiText.en;
+  let template = active[key] || uiText.en[key] || key;
+
+  Object.entries(vars).forEach(([name, value]) => {
+    template = template.replaceAll(`{${name}}`, String(value));
+  });
+
+  return template;
+}
+
+function getDifficultyLabel(level) {
+  if (level === "hard") {
+    return t("difficultyHard");
+  }
+
+  if (level === "extra") {
+    return t("difficultyExtra");
+  }
+
+  return t("difficultyNormal");
+}
+
+function getDumplingName(dumpling) {
+  const translated = dumplingI18n[dumpling.key];
+  return state.language === "zh" && translated ? translated.zhName : dumpling.name;
+}
+
+function getDumplingDescription(dumpling) {
+  const translated = dumplingI18n[dumpling.key];
+  return state.language === "zh" && translated ? translated.zhDescription : dumpling.description;
+}
 
 let pendingOpen = null;
 let currentMathAnswer = null;
@@ -126,6 +343,10 @@ let openingOverlay = null;
 
 function ensureOpeningOverlay() {
   if (openingOverlay) {
+    const skipBtn = openingOverlay.querySelector(".opening-skip-btn");
+    if (skipBtn) {
+      skipBtn.textContent = t("openingSkip");
+    }
     return openingOverlay;
   }
 
@@ -133,7 +354,7 @@ function ensureOpeningOverlay() {
   overlay.className = "opening-overlay hidden";
   overlay.innerHTML = `
     <video class="opening-overlay-video" src="open.mp4" muted playsinline preload="auto" loop></video>
-    <button type="button" class="opening-skip-btn">Skip</button>
+    <button type="button" class="opening-skip-btn">${t("openingSkip")}</button>
   `;
 
   document.body.appendChild(overlay);
@@ -200,6 +421,97 @@ function setAuthFeedback(message, isError = false) {
   authFeedback.style.color = isError ? "#fecaca" : "#bbf7d0";
 }
 
+function applyLanguageText() {
+  document.documentElement.lang = state.language;
+  document.title = t("pageTitle");
+
+  const textById = {
+    kickerText: "kicker",
+    heroTitle: "heroTitle",
+    heroSubtitle: "heroSubtitle",
+    authPanelTitle: "authPanelTitle",
+    authSubtitle: "authSubtitle",
+    loginTitle: "loginTitle",
+    loginKidLabel: "loginKidLabel",
+    loginUsernameLabel: "loginUsernameLabel",
+    loginPasswordLabel: "loginPasswordLabel",
+    loginSubmitBtn: "loginSubmit",
+    sessionLoggedInPrefix: "sessionLoggedInPrefix",
+    logoutBtn: "logout",
+    mathGateTitle: "mathGateTitle",
+    mathRuleText: "mathRuleText",
+    mathLevelLabel: "mathLevelLabel",
+    unlockEnvelopeBtn: "unlockEnvelope",
+    mathCancelBtn: "cancel",
+    nextRoundBtn: "nextRound",
+    collectionTitle: "collectionTitle",
+  };
+
+  Object.entries(textById).forEach(([id, key]) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.textContent = t(key);
+    }
+  });
+
+  loginUsername.placeholder = t("loginUsernamePlaceholder");
+  loginPassword.placeholder = t("loginPasswordPlaceholder");
+  mathAnswer.placeholder = t("mathAnswerPlaceholder");
+
+  authPanel.setAttribute("aria-label", t("authPanelAria"));
+  mathGate.setAttribute("aria-label", t("mathGateAria"));
+  const collectionPane = document.querySelector(".collection");
+  if (collectionPane) {
+    collectionPane.setAttribute("aria-label", t("collectionAria"));
+  }
+
+  const normalOption = mathLevel.querySelector('option[value="normal"]');
+  const hardOption = mathLevel.querySelector('option[value="hard"]');
+  const extraOption = mathLevel.querySelector('option[value="extra"]');
+  if (normalOption) {
+    normalOption.textContent = t("difficultyNormalOption");
+  }
+  if (hardOption) {
+    hardOption.textContent = t("difficultyHardOption");
+  }
+  if (extraOption) {
+    extraOption.textContent = t("difficultyExtraOption");
+  }
+
+  langToggleBtn.textContent = t("switchButton");
+  langToggleBtn.setAttribute("aria-label", t("switchLanguageAria"));
+
+  if (!state.currentUser) {
+    resultPanelTitle.textContent = t("resultPanelDefaultTitle");
+    resultText.textContent = t("resultPanelDefaultText");
+  }
+
+  if (openingOverlay) {
+    const skipBtn = openingOverlay.querySelector(".opening-skip-btn");
+    if (skipBtn) {
+      skipBtn.textContent = t("openingSkip");
+    }
+  }
+
+  if (mathGate.classList.contains("hidden")) {
+    mathQuestion.textContent = t("mathQuestionPlaceholder");
+  }
+}
+
+function setLanguage(languageCode) {
+  state.language = languageCode === "zh" ? "zh" : "en";
+  localStorage.setItem(STORAGE_LANGUAGE_KEY, state.language);
+  applyLanguageText();
+  populateKidSelector();
+  renderCollection();
+
+  if (state.currentUser) {
+    refreshRenderedBoxLabels();
+    updateRoundMessage();
+    updateBoxInteractivity(mathGate.classList.contains("hidden") ? false : true);
+  }
+}
+
 function findFixedUser(username) {
   return fixedUsers.find((item) => item.username.toLowerCase() === username.toLowerCase()) || null;
 }
@@ -226,7 +538,7 @@ function saveCollectionForUser(username, collection) {
 }
 
 function populateKidSelector() {
-  loginKidSelect.innerHTML = '<option value="">Choose a kid account</option>';
+  loginKidSelect.innerHTML = `<option value="">${t("loginKidPlaceholder")}</option>`;
 
   fixedUsers.forEach((item) => {
     const option = document.createElement("option");
@@ -268,7 +580,7 @@ function loginUser(username, password) {
   const account = findFixedUser(username);
 
   if (!account || account.password !== password) {
-    setAuthFeedback("Login failed. Check username and password.", true);
+    setAuthFeedback(t("loginFailed"), true);
     return false;
   }
 
@@ -277,7 +589,7 @@ function loginUser(username, password) {
   saveActiveUsername(account.username);
   renderCollection();
   startRound();
-  setAuthFeedback(`Welcome, ${account.displayName}!`);
+  setAuthFeedback(t("loginWelcome", { name: account.displayName }));
   return true;
 }
 
@@ -287,13 +599,13 @@ function dumplingIconMarkup(colorClass) {
 
 function rewardVisualMarkup(reward, decorative = true) {
   if (reward.key === "golden") {
-    const alt = decorative ? "" : "Golden dumpling";
+    const alt = decorative ? "" : t("goldenAlt");
     const fallback = dumplingIconMarkup("golden");
     return `<span class="golden-visual"><img class="dumpling-art golden-art" src="golden.png" alt="${alt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"><span class="golden-fallback">${fallback}</span></span>`;
   }
 
   if (reward.key === "shark") {
-    const alt = decorative ? "" : "Sharky dumpling";
+    const alt = decorative ? "" : t("sharkAlt");
     const fallback = dumplingIconMarkup("shark");
     return `<span class="shark-visual"><img class="dumpling-art sharky-art" src="sharky.png" alt="${alt}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"><span class="shark-fallback">${fallback}</span></span>`;
   }
@@ -302,7 +614,7 @@ function rewardVisualMarkup(reward, decorative = true) {
 }
 
 function dumplingVideoMarkup() {
-  return `<video class="result-dumpling-video" src="open.mp4" autoplay muted playsinline controls onerror="this.style.display='none';" aria-label="Dumpling video"></video>`;
+  return `<video class="result-dumpling-video" src="open.mp4" autoplay muted playsinline controls onerror="this.style.display='none';" aria-label="${t("dumplingVideoAria")}"></video>`;
 }
 
 function hasAllDumplingsAtLeastTwo() {
@@ -426,23 +738,27 @@ function generateRoundRewards() {
 
 function updateRoundMessage() {
   if (state.opensAllowed === 0) {
-    resultPanelTitle.textContent = "Solve a math challenge to unlock envelopes";
+    resultPanelTitle.textContent = t("solveToUnlock");
     if (hasAllDumplingsAtLeastTwo()) {
-      resultText.textContent = "Normal opens 1, Hard opens 2, Extra Hard opens 3. Bonus unlocked: +1 free open each round.";
+      resultText.textContent = t("roundRuleBonus");
     } else {
-      resultText.textContent = "Normal opens 1, Hard opens 2, Extra Hard opens 3.";
+      resultText.textContent = t("roundRuleBase");
     }
     return;
   }
 
   const left = Math.max(state.opensAllowed - state.opensUsed, 0);
   if (left > 0) {
-    resultPanelTitle.textContent = `${left} envelope${left === 1 ? "" : "s"} left this round`;
-    const bonusText = state.roundBonusOpen > 0 ? " + 1 bonus free open!" : "";
-    resultText.textContent = `Difficulty: ${difficultyConfig[state.selectedDifficulty].label}.${bonusText}`;
+    const suffix = left === 1 ? "" : "s";
+    resultPanelTitle.textContent = t("envelopesLeft", { count: left, suffix });
+    const bonusText = state.roundBonusOpen > 0 ? t("difficultyBonus") : "";
+    resultText.textContent = t("difficultyPrefix", {
+      label: getDifficultyLabel(state.selectedDifficulty),
+      bonus: bonusText,
+    });
   } else {
-    resultPanelTitle.textContent = "Round complete";
-    resultText.textContent = "Click Play Next Round to solve another challenge.";
+    resultPanelTitle.textContent = t("roundComplete");
+    resultText.textContent = t("roundCompleteText");
   }
 }
 
@@ -468,8 +784,8 @@ function renderBoxes() {
     btn.className = "box";
     btn.type = "button";
     btn.dataset.index = String(index);
-    btn.innerHTML = `<span class="box-inner"><span class="envelope"><span class="envelope-back"></span><span class="envelope-flap"></span><span class="envelope-cut"></span><span class="seal">?</span></span><span class="box-label">Mystery Envelope ${index + 1}</span></span>`;
-    btn.setAttribute("aria-label", `Open mystery envelope ${index + 1}`);
+    btn.innerHTML = `<span class="box-inner"><span class="envelope"><span class="envelope-back"></span><span class="envelope-flap"></span><span class="envelope-cut"></span><span class="seal">?</span></span><span class="box-label">${t("mysteryEnvelope", { index: index + 1 })}</span></span>`;
+    btn.setAttribute("aria-label", t("openMysteryEnvelope", { index: index + 1 }));
     btn.disabled = false;
 
     btn.addEventListener("click", () => {
@@ -488,6 +804,34 @@ function renderBoxes() {
   });
 }
 
+function refreshRenderedBoxLabels() {
+  const buttons = boxesRoot.querySelectorAll(".box");
+  buttons.forEach((button) => {
+    const index = Number.parseInt(button.dataset.index || "-1", 10);
+    if (index < 0 || index >= state.roundRewards.length) {
+      return;
+    }
+
+    const label = button.querySelector(".box-label");
+    if (!label) {
+      return;
+    }
+
+    if (button.classList.contains("opening")) {
+      label.textContent = t("opening");
+      return;
+    }
+
+    if (state.openedIndexes.has(index)) {
+      label.textContent = getDumplingName(state.roundRewards[index]);
+      return;
+    }
+
+    label.textContent = t("mysteryEnvelope", { index: index + 1 });
+    button.setAttribute("aria-label", t("openMysteryEnvelope", { index: index + 1 }));
+  });
+}
+
 function renderCollection() {
   collectionList.innerHTML = "";
 
@@ -499,7 +843,7 @@ function renderCollection() {
     header.className = "collection-item-header";
     
     const name = document.createElement("span");
-    name.textContent = item.name;
+    name.textContent = getDumplingName(item);
 
     const pill = document.createElement("span");
     pill.className = `tag ${item.colorClass}`;
@@ -515,18 +859,18 @@ function renderCollection() {
     
     const description = document.createElement("p");
     description.className = "collection-description hidden";
-    description.textContent = item.description;
+    description.textContent = getDumplingDescription(item);
     
     // Try to load PNG image, fallback to CSS icon
     const img = document.createElement("img");
     img.src = `${item.key}.png`;
-    img.alt = item.name;
+    img.alt = getDumplingName(item);
     img.className = "dumpling-image";
     const visualHolder = document.createElement("div");
     visualHolder.className = "collection-visual-holder";
     visualHolder.setAttribute("role", "button");
     visualHolder.setAttribute("tabindex", "0");
-    visualHolder.setAttribute("aria-label", `Show description for ${item.name}`);
+    visualHolder.setAttribute("aria-label", t("showDescription", { name: getDumplingName(item) }));
     const rainbowCrown = document.createElement("span");
     rainbowCrown.className = "rainbow-crown";
     visualHolder.appendChild(rainbowCrown);
@@ -699,12 +1043,12 @@ function openBox(index, clickedButton) {
 
     clickedButton.classList.remove("opening");
     clickedButton.classList.add("opened", "revealed");
-    clickedButton.innerHTML = `<span class="box-inner">${rewardVisualMarkup(reward)}<span class="box-label">${reward.name}</span></span>`;
+    clickedButton.innerHTML = `<span class="box-inner">${rewardVisualMarkup(reward)}<span class="box-label">${getDumplingName(reward)}</span></span>`;
 
     renderCollection();
 
-    resultPanelTitle.textContent = `You got ${reward.name}!`;
-    resultText.textContent = reward.description;
+    resultPanelTitle.textContent = t("youGot", { name: getDumplingName(reward) });
+    resultText.textContent = getDumplingDescription(reward);
     resultVisual.innerHTML = rewardVisualMarkup(reward, false);
     if (hasOpenedEveryDumpling()) {
       resultVisual.innerHTML += dumplingVideoMarkup();
@@ -733,7 +1077,7 @@ function openBox(index, clickedButton) {
     updateBoxInteractivity();
   };
 
-  clickedButton.innerHTML = `<span class="box-inner"><span class="box-label">Opening...</span></span>`;
+  clickedButton.innerHTML = `<span class="box-inner"><span class="box-label">${t("opening")}</span></span>`;
 
   playOpeningOverlay(10000).then(revealReward);
 }
@@ -748,12 +1092,12 @@ function tryUnlockEnvelope(event) {
   const submitted = Number.parseInt(mathAnswer.value, 10);
 
   if (Number.isNaN(submitted)) {
-    mathFeedback.textContent = "Type a number answer first.";
+    mathFeedback.textContent = t("answerTypeNumber");
     return;
   }
 
   if (submitted !== currentMathAnswer) {
-    mathFeedback.textContent = "Not quite. Try again.";
+    mathFeedback.textContent = t("answerTryAgain");
     mathAnswer.select();
     return;
   }
@@ -815,7 +1159,7 @@ function handleLogout() {
   applyLoggedOutView();
   renderCollection();
   renderBoxes();
-  setAuthFeedback("Logged out.");
+  setAuthFeedback(t("loggedOut"));
 }
 
 function bootstrapAuth() {
@@ -824,14 +1168,14 @@ function bootstrapAuth() {
   const activeUsername = readActiveUsername();
 
   if (!activeUsername) {
-    setAuthFeedback("Login with Sarah, James, or Estella to start playing.");
+    setAuthFeedback(t("loginPrompt"));
     return;
   }
 
   const account = findFixedUser(activeUsername);
 
   if (!account) {
-    setAuthFeedback("Session expired. Please login again.");
+    setAuthFeedback(t("loginExpired"));
     localStorage.removeItem(STORAGE_ACTIVE_USER_KEY);
     return;
   }
@@ -840,7 +1184,7 @@ function bootstrapAuth() {
   applyLoggedInView(account);
   renderCollection();
   startRound();
-  setAuthFeedback(`Welcome back, ${account.displayName}!`);
+  setAuthFeedback(t("loginWelcomeBack", { name: account.displayName }));
 }
 
 nextRoundBtn.addEventListener("click", startRound);
@@ -865,4 +1209,9 @@ mathLevel.addEventListener("change", () => {
   }
 });
 
+langToggleBtn.addEventListener("click", () => {
+  setLanguage(state.language === "en" ? "zh" : "en");
+});
+
+applyLanguageText();
 bootstrapAuth();
